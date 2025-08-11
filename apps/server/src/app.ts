@@ -53,18 +53,30 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Root endpoint for basic testing
+// Root endpoint for basic testing and Railway health checks
 app.get("/", (req, res) => {
   res.status(200).json({ 
     message: "Tiny Tap API is running", 
     timestamp: new Date().toISOString(),
-    cors_origin: process.env.CORS_ORIGIN
+    cors_origin: process.env.CORS_ORIGIN,
+    status: "healthy"
   });
 });
 
-// Health check endpoint for Railway
+// Health check endpoint for Railway - super fast response
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+  res.status(200).send("ok");
+});
+
+// Detailed health check for debugging
+app.get("/health/detailed", (req, res) => {
+  res.status(200).json({ 
+    status: "ok", 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    env: process.env.NODE_ENV
+  });
 });
 
 // Keep-alive endpoint

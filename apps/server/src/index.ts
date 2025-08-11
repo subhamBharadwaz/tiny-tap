@@ -29,6 +29,7 @@ try {
 const server = app.listen(port, "0.0.0.0", () => {
 	logger.info(`Server is running at http://0.0.0.0:${port}`);
 	console.log("✅ Server started successfully!");
+	console.log("🚀 App is ready for Railway health checks immediately");
 });
 
 // Graceful shutdown handling
