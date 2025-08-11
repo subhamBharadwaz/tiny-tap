@@ -17,7 +17,24 @@ console.log("🔧 Environment:", {
   CORS_ORIGIN: process.env.CORS_ORIGIN
 });
 
-app.listen(port, "0.0.0.0", () => {
+const server = app.listen(port, "0.0.0.0", () => {
 	logger.info(`Server is running at http://0.0.0.0:${port}`);
 	console.log("✅ Server started successfully!");
+});
+
+// Graceful shutdown handling
+process.on('SIGTERM', () => {
+  console.log('🛑 SIGTERM received, shutting down gracefully...');
+  server.close(() => {
+    console.log('✅ Server closed gracefully');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 SIGINT received, shutting down gracefully...');
+  server.close(() => {
+    console.log('✅ Server closed gracefully');
+    process.exit(0);
+  });
 });

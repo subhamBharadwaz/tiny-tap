@@ -53,6 +53,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Health check endpoint for Railway
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Keep-alive endpoint
+app.get("/ping", (req, res) => {
+  res.status(200).json({ pong: Date.now() });
+});
+
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.use(express.json());
