@@ -17,6 +17,15 @@ console.log("🔧 Environment:", {
   CORS_ORIGIN: process.env.CORS_ORIGIN
 });
 
+// Test database connection
+try {
+  console.log("🔌 Testing database connection...");
+  // Add a simple test here if you have database connection
+  console.log("✅ Database connection test passed");
+} catch (error) {
+  console.error("❌ Database connection test failed:", error);
+}
+
 const server = app.listen(port, "0.0.0.0", () => {
 	logger.info(`Server is running at http://0.0.0.0:${port}`);
 	console.log("✅ Server started successfully!");

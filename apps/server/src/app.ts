@@ -53,6 +53,15 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Root endpoint for basic testing
+app.get("/", (req, res) => {
+  res.status(200).json({ 
+    message: "Tiny Tap API is running", 
+    timestamp: new Date().toISOString(),
+    cors_origin: process.env.CORS_ORIGIN
+  });
+});
+
 // Health check endpoint for Railway
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
@@ -63,7 +72,15 @@ app.get("/ping", (req, res) => {
   res.status(200).json({ pong: Date.now() });
 });
 
-app.all("/api/auth{/*path}", toNodeHandler(auth));
+// Auth routes with error handling
+app.all("/api/auth{/*path}", (req, res) => {
+  try {
+    return toNodeHandler(auth)(req, res);
+  } catch (error) {
+    console.error("Auth handler error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 app.use(express.json());
 app.use(cookieParser());
