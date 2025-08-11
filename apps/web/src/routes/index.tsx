@@ -1,35 +1,174 @@
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { copyToClipboard } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
+import { Copy, Link2, Zap } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import heroImage from "@/assets/tiny-tap-hero.jpg";
+import { useShortenUrl } from "@/components/features/url/queries/useShortenUrl";
 
 export const Route = createFileRoute("/")({
-  component: HomeComponent,
+	component: HomeComponent,
 });
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
-
 function HomeComponent() {
+	const [originalUrl, setOriginalUrl] = useState("");
+	const [shortUrl, setShortUrl] = useState("");
 
-  return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2 font-medium">API Status</h2>
-        </section>
-      </div>
-    </div>
-  );
+	const { mutate: shortenUrl, isPending } = useShortenUrl();
+
+	const handleShorten = () => {
+		if (!originalUrl.trim()) {
+			toast("Error", { description: "Please enter a valid URL" });
+			return;
+		}
+
+		shortenUrl(originalUrl, {
+			onSuccess: (newShortUrl) => setShortUrl(newShortUrl),
+		});
+	};
+
+	return (
+		<div className="min-h-screen bg-gradient-hero">
+			{/* Hero Section */}
+			<section className="relative px-4 py-20">
+				<div
+					className="absolute inset-0 opacity-20"
+					style={{
+						backgroundImage: `url(${heroImage})`,
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+					}}
+				/>
+				<div className="container mx-auto relative z-10">
+					<div className="max-w-4xl mx-auto text-center">
+						<h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+							Shorten URLs with
+							<span className="block bg-gradient-to-r from-primary-glow to-primary-foreground bg-clip-text text-transparent">
+								Lightning Speed
+							</span>
+						</h2>
+						<p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+							Transform long, complex URLs into short, shareable links in
+							seconds. Track clicks, manage links, and boost your digital
+							presence.
+						</p>
+
+						{/* URL Shortener Form */}
+						<Card className="max-w-2xl mx-auto bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2 justify-center">
+									<Zap className="h-5 w-5 text-primary" />
+									URL Shortener
+								</CardTitle>
+								<CardDescription>
+									Paste your long URL below and get a shortened link instantly
+								</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-4">
+								<div className="flex gap-2">
+									<Input
+										placeholder="https://example.com/very-long-url-that-needs-shortening"
+										value={originalUrl}
+										onChange={(e) => setOriginalUrl(e.target.value)}
+										onKeyPress={(e) => e.key === "Enter" && handleShorten()}
+										className="flex-1"
+									/>
+									<Button
+										onClick={handleShorten}
+										disabled={isPending}
+										variant="hero"
+										size="lg"
+									>
+										{isPending ? "Shortening..." : "Shorten"}
+									</Button>
+								</div>
+
+								{shortUrl && (
+									<div className="flex gap-2 p-4 bg-success/10 rounded-lg border border-success/20">
+										<a
+											href={shortUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex-1 underline text-primary"
+										>
+											{shortUrl}
+										</a>
+										<Button
+											onClick={() => copyToClipboard(shortUrl)}
+											variant="success"
+											size="sm"
+										>
+											<Copy className="h-4 w-4" />
+											Copy
+										</Button>
+									</div>
+								)}
+							</CardContent>
+						</Card>
+					</div>
+				</div>
+			</section>
+
+			{/* Features Section */}
+			<section className="px-4 py-20 bg-background/10 backdrop-blur-sm">
+				<div className="container mx-auto">
+					<div className="grid md:grid-cols-3 gap-8">
+						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2">
+									<Zap className="h-5 w-5 text-primary" />
+									Lightning Fast
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-foreground">
+									Generate shortened URLs in milliseconds with our optimized
+									infrastructure.
+								</p>
+							</CardContent>
+						</Card>
+
+						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2">
+									<Link2 className="h-5 w-5 text-primary" />
+									Custom Links
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-muted-foreground">
+									Create branded short links that reflect your identity and
+									build trust.
+								</p>
+							</CardContent>
+						</Card>
+
+						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2">
+									<Copy className="h-5 w-5 text-primary" />
+									Analytics
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-muted-foreground">
+									Track clicks, analyze traffic, and gain insights into your
+									link performance.
+								</p>
+							</CardContent>
+						</Card>
+					</div>
+				</div>
+			</section>
+		</div>
+	);
 }
