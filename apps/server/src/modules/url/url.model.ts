@@ -30,10 +30,7 @@ const urlSchema = new Schema(
 	},
 	{
 		timestamps: true,
-		collection: "url",
 	},
 );
-
-urlSchema.index({ createdAt: -1 });
 
 export const Url = model("Url", urlSchema);
