@@ -5,6 +5,7 @@ import env from "./env";
 import logger from "./middlewares/logger.middleware";
 
 const port = env.PORT || 3000;
+console.log("🔧 Using port:", port);
 
 // Debug logging
 console.log("🚀 Starting server...");
@@ -30,6 +31,9 @@ const server = app.listen(port, "0.0.0.0", () => {
 	logger.info(`Server is running at http://0.0.0.0:${port}`);
 	console.log("✅ Server started successfully!");
 	console.log("🚀 App is ready for Railway health checks immediately");
+	
+	// Keep the process alive
+	process.stdin.resume();
 });
 
 // Graceful shutdown handling

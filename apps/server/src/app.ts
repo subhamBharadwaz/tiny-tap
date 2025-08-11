@@ -63,20 +63,9 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check endpoint for Railway - super fast response
+// Simple health check
 app.get("/health", (req, res) => {
   res.status(200).send("ok");
-});
-
-// Detailed health check for debugging
-app.get("/health/detailed", (req, res) => {
-  res.status(200).json({ 
-    status: "ok", 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    memory: process.memoryUsage(),
-    env: process.env.NODE_ENV
-  });
 });
 
 // Keep-alive endpoint
