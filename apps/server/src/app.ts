@@ -21,6 +21,10 @@ const corsOptions = {
 		origin: string | undefined,
 		callback: (err: Error | null, allow?: boolean) => void,
 	) => {
+		// Debug logging
+		console.log("CORS check - Origin:", origin);
+		console.log("CORS check - env.CORS_ORIGIN:", env.CORS_ORIGIN);
+		
 		if (!origin) return callback(null, true);
 
 		const allowedOrigins = [
@@ -31,7 +35,10 @@ const corsOptions = {
 			"http://127.0.0.1:3001",
 		].filter(Boolean);
 
+		console.log("CORS check - Allowed origins:", allowedOrigins);
+
 		if (allowedOrigins.includes(origin)) {
+			console.log("CORS check - Origin allowed:", origin);
 			callback(null, true);
 		} else {
 			console.log(`CORS blocked origin: ${origin}`); // Debug logging
