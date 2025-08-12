@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import Header from "@/components/header";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ErrorBoundary } from "react-error-boundary";
@@ -19,6 +18,7 @@ import { LoaderIcon } from "lucide-react";
 import { MainErrorFallback } from "@/components/errors/main";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { queryConfig } from "@/lib/react-query";
+import Header from "@/components/layout/header";
 
 export interface RouterAppContext {}
 
@@ -73,7 +73,7 @@ function RootComponent() {
 							disableTransitionOnChange
 							storageKey="vite-ui-theme"
 						>
-							<div className="grid grid-rows-[auto_1fr] h-svh">
+							<div className="">
 								<Header />
 								{isFetching ? <Loader /> : <Outlet />}
 							</div>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { UrlData } from "@/components/features/url/url.types";
+import type { UrlData } from "@/features/url/url.types";
 import { env } from "@/config/env";
 
 async function getAdminUrls(): Promise<UrlData[]> {

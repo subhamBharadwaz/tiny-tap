@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { StatsData } from "@/components/features/admin/admin.types";
+import type { StatsData } from "@/features/admin/admin.types";
 import { env } from "@/config/env";
 
 export async function fetchAdminStats(): Promise<StatsData> {

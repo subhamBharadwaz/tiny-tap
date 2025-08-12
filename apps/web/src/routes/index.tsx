@@ -13,7 +13,7 @@ import { Copy, Link2, Zap } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import heroImage from "@/assets/tiny-tap-hero.jpg";
-import { useShortenUrl } from "@/components/features/url/queries/useShortenUrl";
+import { useShortenUrl } from "@/features/url/queries/useShortenUrl";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
@@ -37,9 +37,9 @@ function HomeComponent() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-hero">
+		<div className="min-h-screen ">
 			{/* Hero Section */}
-			<section className="relative px-4 py-20">
+			<section className="relative px-4 py-20 bg-gradient-to-r from-red-500 to-red-800">
 				<div
 					className="absolute inset-0 opacity-20"
 					style={{
@@ -63,13 +63,13 @@ function HomeComponent() {
 						</p>
 
 						{/* URL Shortener Form */}
-						<Card className="max-w-2xl mx-auto bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+						<Card className="max-w-2xl mx-auto bg-gradient-card backdrop-blur-sm border-background/20">
 							<CardHeader>
-								<CardTitle className="flex items-center gap-2 justify-center">
+								<CardTitle className="flex text-white items-center gap-2 justify-center">
 									<Zap className="h-5 w-5 text-primary" />
 									URL Shortener
 								</CardTitle>
-								<CardDescription>
+								<CardDescription className="text-white/90">
 									Paste your long URL below and get a shortened link instantly
 								</CardDescription>
 							</CardHeader>
@@ -80,12 +80,13 @@ function HomeComponent() {
 										value={originalUrl}
 										onChange={(e) => setOriginalUrl(e.target.value)}
 										onKeyPress={(e) => e.key === "Enter" && handleShorten()}
-										className="flex-1"
+										className="flex-1 placeholder:text-muted-foreground/80"
 									/>
 									<Button
 										onClick={handleShorten}
 										disabled={isPending}
 										variant="hero"
+										className="cursor-pointer"
 										size="lg"
 									>
 										{isPending ? "Shortening..." : "Shorten"}
@@ -93,18 +94,19 @@ function HomeComponent() {
 								</div>
 
 								{shortUrl && (
-									<div className="flex gap-2 p-4 bg-success/10 rounded-lg border border-success/20">
+									<div className="flex gap-2 p-4 bg-white/10 backdrop-blur-lg border border-white/20 text-white shadow-2xl">
 										<a
 											href={shortUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="flex-1 underline text-primary"
+											className="flex-1 underline text-white"
 										>
 											{shortUrl}
 										</a>
 										<Button
 											onClick={() => copyToClipboard(shortUrl)}
 											variant="success"
+											className="cursor-pointer"
 											size="sm"
 										>
 											<Copy className="h-4 w-4" />
@@ -122,7 +124,7 @@ function HomeComponent() {
 			<section className="px-4 py-20 bg-background/10 backdrop-blur-sm">
 				<div className="container mx-auto">
 					<div className="grid md:grid-cols-3 gap-8">
-						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+						<Card className="backdrop-blur-sm border-primary/20 shadow-elegant">
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
 									<Zap className="h-5 w-5 text-primary" />
@@ -137,7 +139,7 @@ function HomeComponent() {
 							</CardContent>
 						</Card>
 
-						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+						<Card className="backdrop-blur-sm border-primary/20 shadow-elegant">
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
 									<Link2 className="h-5 w-5 text-primary" />
@@ -152,7 +154,7 @@ function HomeComponent() {
 							</CardContent>
 						</Card>
 
-						<Card className="bg-gradient-card backdrop-blur-sm border-background/20 shadow-elegant">
+						<Card className="backdrop-blur-sm border-priamry/20 shadow-elegant">
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
 									<Copy className="h-5 w-5 text-primary" />

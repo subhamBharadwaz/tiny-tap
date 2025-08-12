@@ -9,7 +9,7 @@ type StatsProps = {
 
 export const Stats: React.FC<StatsProps> = ({ stats }) => {
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+		<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
 			<StatCard
 				title="Total URLs"
 				primaryData={stats.totalUrls}
@@ -23,7 +23,7 @@ export const Stats: React.FC<StatsProps> = ({ stats }) => {
 				icon={MousePointer}
 			/>
 			<StatCard
-				title="Average Clickks"
+				title="Average Clicks"
 				primaryData={
 					stats.totalUrls > 0
 						? (stats.totalClicks / stats.totalUrls).toFixed(1)
