@@ -18,20 +18,7 @@ export const auth = betterAuth({
 		crossSubDomainCookies: {
 			enabled: true,
 		},
-		useSecureCookies: env.NODE_ENV === "production",
-		cookies: {
-			session_token: {
-				attributes: {
-					httpOnly: true,
-					secure: env.NODE_ENV === "production",
-					path: "/",
-				},
-			},
-		},
-		defaultCookieAttributes: {
-			secure: env.NODE_ENV === "production",
-			sameSite: "none",
-		},
+		
 	},
 	trustedOrigins: [
 		env.CORS_ORIGIN,
